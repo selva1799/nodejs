@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
+const path = require('path');
 
 // Import and initialize the database connection
 require('./database/database')();
@@ -9,11 +10,14 @@ require('./database/database')();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+// Serve uploaded files
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Import routes
-const userRoutes = require('./routes/api');
+const productRoutes = require('./routes/api');
 
 // Use the routes
-app.use('/api', userRoutes);
+app.use('/api', productRoutes);
 
 // Start the server
 app.listen(3000, () => {
